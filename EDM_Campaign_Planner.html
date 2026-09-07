@@ -17,7 +17,7 @@
   --radius:12px; --radius-sm:8px;
   --sans:'Inter',sans-serif; --mono:'IBM Plex Mono',monospace;
   --seg-agile:#6366F1; --seg-pm:#0EA5E9; --seg-pu:#F59E0B; --seg-bi:#D9A70C;
-  --seg-pp:#8B5CF6; --seg-dev:#0E8F5F; --seg-infra:#DC4545; --seg-others:#6B7280;
+  --seg-pp:#8B5CF6; --seg-dev:#0E8F5F; --seg-infra:#DC4545; --seg-others:#6B7280; --seg-contact:#0891B2;
 }
 *{box-sizing:border-box;}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;font-size:14px;}
@@ -327,12 +327,12 @@ table.simple.sortable th.sorted::after{content:' ▾';}
       <input type="text" id="f-name" placeholder="e.g. Agile Day">
     </div>
     <div class="field">
-      <label>Training Date</label>
+      <label>Posting Date</label>
       <input type="date" id="f-date">
     </div>
     <div class="field">
-      <label>Week (auto)</label>
-      <div class="field-readonly" id="f-week-display">—</div>
+      <label>Campaign Type</label>
+      <div class="checkbox-grid" id="f-campaign-types"></div>
     </div>
     <div class="field">
       <label>Product PIC</label>
@@ -345,6 +345,10 @@ table.simple.sortable th.sorted::after{content:' ▾';}
     <div class="field">
       <label>Status</label>
       <select id="f-status-input"></select>
+    </div>
+    <div class="field">
+      <label>Report Link (optional)</label>
+      <input type="url" id="f-report-link" placeholder="https://...">
     </div>
     <div class="field">
       <label>Remarks (optional)</label>
@@ -379,7 +383,8 @@ table.simple.sortable th.sorted::after{content:' ▾';}
 </script>
 <script>
 const SEED_PROGRAMS=[{"id": "81239622", "week": "2026-05-04", "programName": "CAPM", "segments": ["Agile Scrum", "Project Management"], "status": "Confirmed", "pic": "", "remarks": "", "edmStatus": "Not Started", "lastUpdated": "2026-08-07"}, {"id": "367f4a7d", "week": "2026-05-11", "programName": "Power Platform (FREE class)", "segments": ["Power User", "Power Platform"], "status": "Confirmed", "pic": "", "remarks": "", "edmStatus": "Not Started", "lastUpdated": "2026-08-07"}, {"id": "7db2c08b", "week": "2026-05-18", "programName": "Python", "segments": ["IT Developer"], "status": "Confirmed", "pic": "", "remarks": "", "edmStatus": "Not Started", "lastUpdated": "2026-08-07"}, {"id": "c39fb0e5", "week": "2026-05-25", "programName": "ITIL", "segments": ["IT Infra & Security"], "status": "Confirmed", "pic": "", "remarks": "", "edmStatus": "Not Started", "lastUpdated": "2026-08-07"}, {"id": "68e0c91c", "week": "2026-06-03", "programName": "PL-300", "segments": ["Power User", "Power BI"], "status": "Confirmed", "pic": "", "remarks": "", "edmStatus": "Not Started", "lastUpdated": "2026-08-07"}, {"id": "5fb74ab9", "week": "2026-06-10", "programName": "scrum-PSPO-ai -ES", "segments": ["Agile Scrum"], "status": "Confirmed", "pic": "", "remarks": "", "edmStatus": "Not Started", "lastUpdated": "2026-08-07"}, {"id": "2da5019c", "week": "2026-06-17", "programName": "ECBA", "segments": ["Power User", "Power BI"], "status": "Confirmed", "pic": "", "remarks": "", "edmStatus": "Not Started", "lastUpdated": "2026-08-07"}, {"id": "9574760a", "week": "2026-06-24", "programName": "Prince2", "segments": ["Project Management"], "status": "Confirmed", "pic": "", "remarks": "", "edmStatus": "Not Started", "lastUpdated": "2026-08-07"}, {"id": "0659d0ee", "week": "2026-07-01", "programName": "AZ-900 & AZ-104", "segments": ["IT Infra & Security"], "status": "Confirmed", "pic": "", "remarks": "", "edmStatus": "Not Started", "lastUpdated": "2026-08-07"}, {"id": "372d7d5d", "week": "2026-07-08", "programName": "BEPL-102", "segments": ["Power User", "Power Platform"], "status": "Confirmed", "pic": "", "remarks": "", "edmStatus": "Not Started", "lastUpdated": "2026-08-07"}, {"id": "6e54e90d", "week": "2026-07-15", "programName": "Professional Scrum Product Backlog Management Skills\u2122", "segments": ["Agile Scrum", "Project Management", "IT Developer"], "status": "Confirmed", "pic": "", "remarks": "", "edmStatus": "Not Started", "lastUpdated": "2026-08-07"}, {"id": "2689df5c", "week": "2026-07-22", "programName": "Adobe Illustrator CC Foundation (KIV)", "segments": ["Others"], "status": "Draft", "pic": "", "remarks": "", "edmStatus": "Not Started", "lastUpdated": "2026-08-07"}, {"id": "25efbdda", "week": "2026-07-29", "programName": "Comptia Security", "segments": ["IT Infra & Security"], "status": "Confirmed", "pic": "", "remarks": "", "edmStatus": "Not Started", "lastUpdated": "2026-08-07"}, {"id": "b7b8f045", "week": "2026-08-05", "programName": "Generative AI Workflow Automation (Oct)", "segments": ["Power User", "Others"], "status": "Confirmed", "pic": "", "remarks": "", "edmStatus": "Not Started", "lastUpdated": "2026-08-07"}, {"id": "87eb2498", "week": "2026-08-12", "programName": "Planning & Managing  & PMP & AI-powered PM", "segments": ["Project Management"], "status": "Confirmed", "pic": "", "remarks": "", "edmStatus": "Not Started", "lastUpdated": "2026-08-07"}, {"id": "e272f79f", "week": "2026-08-12", "programName": "Agile day", "segments": ["Agile Scrum"], "status": "Confirmed", "pic": "", "remarks": "", "edmStatus": "Not Started", "lastUpdated": "2026-08-07"}, {"id": "574e61d4", "week": "2026-08-19", "programName": "Power BI & Google looker", "segments": ["Power User", "Power BI"], "status": "Confirmed", "pic": "", "remarks": "", "edmStatus": "Not Started", "lastUpdated": "2026-08-07"}, {"id": "df0fb0ce", "week": "2026-08-26", "programName": "Flutter & Swift (KIV)", "segments": ["IT Developer"], "status": "Draft", "pic": "", "remarks": "", "edmStatus": "Not Started", "lastUpdated": "2026-08-07"}, {"id": "305999c2", "week": "2026-09-09", "programName": "Agile day - Jess + AI course", "segments": ["Agile Scrum", "Project Management", "IT Developer"], "status": "Confirmed", "pic": "", "remarks": "", "edmStatus": "Not Started", "lastUpdated": "2026-08-07"}];
-const SEGMENTS=["Agile Scrum", "Project Management", "Power User", "Power BI", "Power Platform", "IT Developer", "IT Infra & Security", "Others"];
+const SEGMENTS=["Agile Scrum", "Project Management", "Power User", "Power BI", "Power Platform", "IT Developer", "IT Infra & Security", "Contact Person", "Others"];
+const CAMPAIGN_TYPES = ["Workshop", "Webinar", "Weekly EDM"];
 const ALL_WEEKS=["2026-05-04", "2026-05-11", "2026-05-18", "2026-05-25", "2026-06-03", "2026-06-10", "2026-06-17", "2026-06-24", "2026-07-01", "2026-07-08", "2026-07-15", "2026-07-22", "2026-07-29", "2026-08-05", "2026-08-12", "2026-08-19", "2026-08-26", "2026-09-02", "2026-09-09", "2026-09-16", "2026-09-23", "2026-09-30"];
 
 </script>
@@ -415,7 +420,7 @@ function slug(s){ return s.replace(/[^a-zA-Z0-9]+/g,'-'); }
 const SEGMENT_COLORS = {
   'Agile Scrum':'var(--seg-agile)', 'Project Management':'var(--seg-pm)', 'Power User':'var(--seg-pu)',
   'Power BI':'var(--seg-bi)', 'Power Platform':'var(--seg-pp)', 'IT Developer':'var(--seg-dev)',
-  'IT Infra & Security':'var(--seg-infra)', 'Others':'var(--seg-others)',
+  'IT Infra & Security':'var(--seg-infra)', 'Contact Person':'var(--seg-contact)', 'Others':'var(--seg-others)',
 };
 const STATUS_OPTIONS = ['Draft','Confirmed','Marketing Ready','Completed','Cancelled'];
 const EDM_STATUS_OPTIONS = ['Not Started','In Progress','Sent'];
@@ -457,9 +462,11 @@ function normalizeProgram(raw){
     programName: (raw && raw.programName) || 'Untitled Program',
     week: (raw && raw.week) || todayISO(),
     segments: (raw && Array.isArray(raw.segments)) ? raw.segments : [],
+    campaignTypes: (raw && Array.isArray(raw.campaignTypes)) ? raw.campaignTypes : [],
     status: (raw && STATUS_OPTIONS.includes(raw.status)) ? raw.status : 'Draft',
     pic: (raw && raw.pic) || '',
     remarks: (raw && raw.remarks) || '',
+    reportLink: (raw && raw.reportLink) || '',
     edmStatus: (raw && EDM_STATUS_OPTIONS.includes(raw.edmStatus)) ? raw.edmStatus : 'Not Started',
     lastUpdated: (raw && raw.lastUpdated) || todayISO(),
   };
@@ -663,9 +670,10 @@ function renderUpcoming(){
     const k=upcomingSort.key, dir=upcomingSort.dir==='asc'?1:-1;
     let av=a[k], bv=b[k];
     if(k==='segments'){ av=a.segments.join(','); bv=b.segments.join(','); }
+    if(k==='campaignTypes'){ av=(a.campaignTypes||[]).join(','); bv=(b.campaignTypes||[]).join(','); }
     return dir * String(av||'').localeCompare(String(bv||''), undefined, {numeric:true});
   });
-  const cols = [['week','Week'],['programName','Program Name'],['segments','Target Segments'],['status','Status'],['pic','Product PIC'],['lastUpdated','Last Updated']];
+  const cols = [['week','Week'],['programName','Program Name'],['segments','Target Segments'],['status','Status'],['campaignTypes','Campaign Type'],['lastUpdated','Last Updated']];
   const thead = `<thead><tr>${cols.map(([k,l])=>`<th class="sortable ${upcomingSort.key===k?'sorted':''}" data-k="${k}">${l}</th>`).join('')}<th></th></tr></thead>`;
   const tbody = rows.map(p=>{
     const soon = daysUntil(p.week)>=0 && daysUntil(p.week)<=14;
@@ -674,7 +682,7 @@ function renderUpcoming(){
       <td style="font-weight:600;">${p.programName}</td>
       <td>${p.segments.map(segTag).join('')}</td>
       <td>${statusPill(p.status,'status')}</td>
-      <td>${p.pic||'<span style="color:var(--ink-faint);">Unassigned</span>'}</td>
+      <td>${(p.campaignTypes&&p.campaignTypes.length)?p.campaignTypes.join(', '):'<span style="color:var(--ink-faint);">—</span>'}</td>
       <td style="color:var(--ink-faint);">${fmtDateShort(p.lastUpdated)}</td>
       <td><button class="btn btn-ghost btn-sm" onclick="openEdit('${p.id}')">Edit</button></td>
     </tr>`;
@@ -751,11 +759,12 @@ function openAdd(){
   document.getElementById('modal-title').textContent = 'Add Program';
   document.getElementById('f-name').value = '';
   document.getElementById('f-date').value = '';
-  document.getElementById('f-week-display').textContent = '—';
   document.getElementById('f-pic-input').value = '';
   document.getElementById('f-remarks').value = '';
   document.getElementById('f-status-input').value = 'Draft';
+  document.getElementById('f-report-link').value = '';
   renderSegmentCheckboxes([]);
+  renderCampaignTypeCheckboxes([]);
   document.getElementById('btn-delete').style.display = 'none';
   document.getElementById('modal-backdrop').classList.add('open');
 }
@@ -766,11 +775,12 @@ window.openEdit = function(id){
   document.getElementById('modal-title').textContent = 'Edit Program';
   document.getElementById('f-name').value = p.programName;
   document.getElementById('f-date').value = p.week;
-  document.getElementById('f-week-display').textContent = fmtDate(mondayOfISO(p.week));
   document.getElementById('f-pic-input').value = p.pic;
   document.getElementById('f-remarks').value = p.remarks;
   document.getElementById('f-status-input').value = p.status;
+  document.getElementById('f-report-link').value = p.reportLink || '';
   renderSegmentCheckboxes(p.segments);
+  renderCampaignTypeCheckboxes(p.campaignTypes || []);
   document.getElementById('btn-delete').style.display = '';
   document.getElementById('modal-backdrop').classList.add('open');
 };
@@ -781,11 +791,14 @@ function renderSegmentCheckboxes(selected){
       ${segTag(seg)}
     </label>`).join('');
 }
+function renderCampaignTypeCheckboxes(selected){
+  document.getElementById('f-campaign-types').innerHTML = CAMPAIGN_TYPES.map(t=>`
+    <label class="checkbox-item">
+      <input type="checkbox" value="${t}" ${selected.includes(t)?'checked':''}>
+      ${t}
+    </label>`).join('');
+}
 document.getElementById('f-status-input').innerHTML = STATUS_OPTIONS.map(s=>`<option value="${s}">${s}</option>`).join('');
-document.getElementById('f-date').addEventListener('change', (e)=>{
-  const v = e.target.value;
-  document.getElementById('f-week-display').textContent = v ? fmtDate(mondayOfISO(v)) : '—';
-});
 document.getElementById('btn-add-program').addEventListener('click', openAdd);
 document.getElementById('btn-cancel').addEventListener('click', closeModal);
 document.getElementById('modal-backdrop').addEventListener('click', (e)=>{ if(e.target.id==='modal-backdrop') closeModal(); });
@@ -795,21 +808,23 @@ document.getElementById('btn-save').addEventListener('click', async ()=>{
   const name = document.getElementById('f-name').value.trim();
   const date = document.getElementById('f-date').value;
   if(!name){ toast('Program name is required.'); return; }
-  if(!date){ toast('Training date is required.'); return; }
+  if(!date){ toast('Posting date is required.'); return; }
   const segs = [...document.querySelectorAll('#f-segments input:checked')].map(cb=>cb.value);
+  const campaignTypes = [...document.querySelectorAll('#f-campaign-types input:checked')].map(cb=>cb.value);
   const pic = document.getElementById('f-pic-input').value.trim();
   const status = document.getElementById('f-status-input').value;
   const remarks = document.getElementById('f-remarks').value.trim();
+  const reportLink = document.getElementById('f-report-link').value.trim();
   const weekMonday = mondayOfISO(date);
 
   if(editingId){
     const p = programs.find(x=>x.id===editingId);
-    Object.assign(p, {programName:name, week:weekMonday, segments:segs, pic, status, remarks, lastUpdated:todayISO()});
+    Object.assign(p, {programName:name, week:weekMonday, segments:segs, campaignTypes, pic, status, remarks, reportLink, lastUpdated:todayISO()});
     toast(`"${name}" updated.`);
   } else {
     programs.push({
       id: Math.random().toString(36).slice(2,10),
-      week: weekMonday, programName:name, segments:segs, status, pic, remarks,
+      week: weekMonday, programName:name, segments:segs, campaignTypes, status, pic, remarks, reportLink,
       edmStatus:'Not Started', lastUpdated: todayISO(),
     });
     toast(`"${name}" added.`);
